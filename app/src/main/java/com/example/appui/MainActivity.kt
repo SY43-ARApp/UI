@@ -5,8 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,11 +16,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,17 +27,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.appui.ui.theme.AppUITheme
 import kotlinx.coroutines.delay
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.foundation.clickable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
+@Composable
+fun AppNavigation() {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "title_screen") {
+        composable("title_screen") { TitleScreen(onNavigate = { navController.navigate("next_screen") }) }
+        composable("next_screen") { NextScreen() }
+    }
+}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,21 +55,21 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppUITheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    TitleScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                    AppNavigation()
             }
         }
     }
 }
 
 @Composable
-fun TitleScreen(modifier : Modifier = Modifier){
+fun TitleScreen(modifier: Modifier = Modifier, onNavigate: () -> Unit) {
     var image = painterResource(R.drawable.background_image)
-    Box()
-    {
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable { onNavigate() } // Détecte les clics sur l'écran
+    ) {
         Image(
             painter = image,
             contentDescription = null,
@@ -77,12 +83,11 @@ fun TitleScreen(modifier : Modifier = Modifier){
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
-
-            ) {
+        ) {
             Name()
-            Spacer(modifier = modifier.weight(2f))
+            Spacer(modifier = Modifier.weight(2f))
             PlayText()
-            Spacer(modifier = modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
 }
@@ -113,11 +118,16 @@ fun Name(modifier: Modifier = Modifier) {
 @Composable
 fun PlayText(modifier : Modifier = Modifier) {
     var visible by remember { mutableStateOf(true) }
-    val color by animateColorAsState(if (visible) Color.White else Color.Transparent)
+    val color by animateColorAsState(
+        targetValue = if (visible) Color.White else Color.Transparent,
+        animationSpec = tween(
+            durationMillis = 1000, // Durée de l'animation en millisecondes
+            easing = LinearEasing
+        ))
 
-    LaunchedEffect(Unit) {//* TODO : ralentir le fade de l'animation
+    LaunchedEffect(Unit) {
         while (true){
-            delay(500)
+            delay(1000)// Durée entre chaque début d'animation
             visible = !visible
         }
     }
@@ -138,6 +148,6 @@ fun PlayText(modifier : Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     AppUITheme {
-        TitleScreen()
+        AppNavigation()
     }
 }
