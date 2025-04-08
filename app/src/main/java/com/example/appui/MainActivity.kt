@@ -35,6 +35,8 @@ import kotlinx.coroutines.delay
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -63,7 +65,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TitleScreen(modifier: Modifier = Modifier, onNavigate: () -> Unit) {
-    var image = painterResource(R.drawable.background_image)
+    val image = painterResource(R.drawable.background_image)
 
     Box(
         modifier = Modifier
@@ -95,21 +97,22 @@ fun TitleScreen(modifier: Modifier = Modifier, onNavigate: () -> Unit) {
 
 @Composable
 fun Name(modifier: Modifier = Modifier) {
+    val image = painterResource(R.drawable.titre_g_n_r__par_ia)
     Column (modifier = modifier
 
         .padding(vertical =4.dp ),
 
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Game Title !",
-            modifier = modifier
-                .border(2.dp, Color.White)
 
-                .padding(vertical = 10.dp, horizontal = 20.dp),
-            color = Color.White,
-            fontWeight = FontWeight.Bold,
-            fontFamily = FontFamily.SansSerif
+        Image(
+            painter = image,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+                .size(350.dp)
         )
 
     }
