@@ -100,7 +100,7 @@ fun TitleScreen(modifier: Modifier = Modifier, onNavigate: (String) -> Unit) {
 
 @Composable
 fun Name(modifier: Modifier = Modifier) {
-    val image = painterResource(R.drawable.titre_g_n_r__par_ia)
+    val image = painterResource(R.drawable.titre)
     Column (modifier = modifier
 
         .padding(vertical =4.dp ),
