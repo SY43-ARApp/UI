@@ -46,8 +46,11 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "title_screen") {
-        composable("title_screen") { TitleScreen(onNavigate = { navController.navigate("next_screen") }) }
-        composable("next_screen") { NextScreen() }
+        composable("title_screen") { TitleScreen(onNavigate = { route -> navController.navigate(route) }) }
+        composable("home") { Home_screen(onNavigate = { route -> navController.navigate(route) }) }
+        composable("scoreboard") { Scoreboard(onNavigate = { route -> navController.navigate(route) }) }
+        composable("profile") { Profile(onNavigate = {route -> navController.navigate(route)}) }
+        composable("game") { GameScreen(onNavigate = { route -> navController.navigate(route) }) }
     }
 }
 
@@ -64,13 +67,13 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun TitleScreen(modifier: Modifier = Modifier, onNavigate: () -> Unit) {
+fun TitleScreen(modifier: Modifier = Modifier, onNavigate: (String) -> Unit) {
     val image = painterResource(R.drawable.background_image)
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .clickable { onNavigate() } // Détecte les clics sur l'écran
+            .clickable {  onNavigate("home")  } // Détecte les clics sur l'écran
     ) {
         Image(
             painter = image,
