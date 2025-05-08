@@ -34,6 +34,9 @@ fun Home_screen(onNavigate:  (String)-> Unit) {
             Button(onClick = { onNavigate("Profile") }) {
                 Text(text = "Mon profile")
             }
+            Button(onClick = {onNavigate("games_history")}) {
+                Text(text="Historique des jeux")
+            }
         }
 
     }
