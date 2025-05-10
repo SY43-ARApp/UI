@@ -59,6 +59,7 @@ fun AppNavigation() {
         composable("profile") { Profile(onNavigate = {route -> navController.navigate(route)}) }
         composable("game") { GameScreen(onNavigate = { route -> navController.navigate(route) }) }
         composable("games_history") { HistoryScreen(onNavigate = { route -> navController.navigate(route) }) }
+        composable("settings") { Settings(onNavigate = { route -> navController.navigate(route) }) }
     }
 }
 
