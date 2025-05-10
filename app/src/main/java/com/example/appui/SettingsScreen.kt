@@ -153,17 +153,6 @@ fun Settings(onNavigate: (String) -> Unit) {
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    // Divider
-                    HorizontalDivider(
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        thickness = 1.dp,
-                        color = Color.LightGray
-                    )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
                     // Show Notifications Checkbox
                     Row(
                         modifier = Modifier.fillMaxWidth(),
