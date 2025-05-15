@@ -38,8 +38,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.MenuDefaults.containerColor
+import androidx.compose.ui.text.style.TextAlign
+import kotlin.times
 
 
 @Composable
@@ -71,17 +75,27 @@ fun Shop(onNavigate: (String) -> Unit) {
                 )
             }
         }
-    ) { paddingValues ->
-        LazyColumn(
+    ) { innerPadding ->
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(innerPadding)
+                .padding(16.dp)
         ) {
-            // Money container
-            item {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .weight(1f),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+
+            ) {
                 Card(
                     modifier = Modifier
-                        .padding(16.dp),
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFFCBCBCB)
+                    ),
                 ) {
                     Row(
                         modifier = Modifier.padding(8.dp),
@@ -121,45 +135,59 @@ fun Shop(onNavigate: (String) -> Unit) {
                         }
                     }
                 }
-            }
 
-            // Shop items layout (2 squares wide, 4 high)
-            items((0 until 4).toList()) { row -> // 4 rows
-                Row(
+                LazyColumn (
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp), // Reduced padding for tighter layout
+                        .padding(horizontal = 16.dp, vertical = 4.dp)
                 ) {
-                    for (col in 0 until 2) { // 2 items per row
-                        Card(
+                    items(6) { rowIndex ->
+                        Row(
                             modifier = Modifier
-                                .weight(1f)
-                                .aspectRatio(1f),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
                         ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(Color.LightGray),
-                                verticalArrangement = Arrangement.SpaceBetween,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                // Item content (placeholder)
-                                Box(
+                            for (col in 0 until 2) {
+                                val itemNumber = rowIndex * 2 + col + 1
+                                Card(
                                     modifier = Modifier
                                         .weight(1f)
-                                        .fillMaxWidth(),
-                                    contentAlignment = Alignment.Center
+                                        .padding(8.dp)
+                                        .aspectRatio(1f),
+                                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                                 ) {
-                                    Text(text = "Item ${(row * 2) + col + 1}")
-                                }
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .background(Color.LightGray),
+                                        verticalArrangement = Arrangement.SpaceBetween,
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .fillMaxWidth(),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(text = "Item $itemNumber")
+                                        }
 
-                                // Price at the bottom
-                                Text(
-                                    text = "100 $",
-                                    fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.padding(8.dp)
-                                )
+                                        Surface(
+                                            color = Color(0xFFFFA500),
+                                            shape = RoundedCornerShape(4.dp),
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                        ) {
+                                            Text(
+                                                text = "${itemNumber * 50} $",
+                                                textAlign = TextAlign.Center,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color.White,
+                                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                            )
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
