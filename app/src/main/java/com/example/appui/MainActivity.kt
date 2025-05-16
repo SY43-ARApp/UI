@@ -54,7 +54,7 @@ fun AppNavigation() {
 
     NavHost(navController = navController, startDestination = "title_screen") {
         composable("title_screen") { TitleScreenWithParallax(onNavigate = { route -> navController.navigate(route) }) }
-        composable("home") { Home_screen(onNavigate = { route -> navController.navigate(route) }) }
+        composable("home") { Home(onNavigate = { route -> navController.navigate(route) }) }
         composable("scoreboard") { Scoreboard(onNavigate = { route -> navController.navigate(route) }) }
         composable("profile") { Profile(onNavigate = {route -> navController.navigate(route)}) }
         composable("game") { GameScreen(onNavigate = { route -> navController.navigate(route) }) }
